@@ -6,7 +6,7 @@ Ranking signals Instagram's head (Mosseri) names for Reels: watch time (incl. co
 - Hook must land in the first second: max 3 words line1, a curiosity/pain accent. Patterns: "وقّف…"، "الغلط اللي…"، سؤال يلمس ألم، نتيجة قبل الشرح، كسر توقع.
 - One idea per point, title <= 4 words, sub <= 7 words. No paragraphs (heavy text gets down-ranked).
 - Ending loops: CTA asks for a SEND ("أرسله لصاحب مشروع") then the video restarts on the hook.
-- Alternate TRIAL_REEL (even hours) and REEL (odd hours).
+- Publish reels as REEL only (Trial Reels need more followers).
 ## Captions (search + sends)
 - First line = keyword-rich statement people search for (e.g. "إعلانات انستقرام الممولة للمشاريع الصغيرة").
 - Then 1 line value, then CTA in this order: "أرسله لصاحب مشروع يحتاجه 📩" , "احفظه 🔖".
