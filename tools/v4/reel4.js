@@ -1,7 +1,7 @@
 // Kinetic-typography reel renderer with synthesized sound design.
 const fs = require('fs'); const path = require('path'); const { execFileSync, spawn } = require('child_process');
 const T = require('./templates');
-const DUR = { hook: 2.8, point: 3.1, cta: 3.4 };
+const DUR = { hook: 1.9, point: 2.4, cta: 2.0 };
 
 function sceneHtml(sc, i, start) {
   const d = sc.dur, s = start.toFixed(3), e = T.esc;
