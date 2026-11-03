@@ -30,7 +30,7 @@ html,body{background:var(--k)}
 `;
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 const dots = (n, N) => `<div class="dots">${Array.from({ length: N }, (_, i) => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</div>`;
-const chrome = (n, N, label) => `<div class="grain"></div><div class="top"><span>${label || 'WASL · STUDIO'}</span><span class="mark">وَصْل</span></div><div class="rule" style="top:130px"></div>
+const chrome = (n, N, label) => `<div class="grain"></div><div class="top"><span>${label || 'WASL · STUDIO'}</span><span class="mark" style="display:flex;align-items:center;gap:14px">وَصْل${MARK(54)}</span></div><div class="rule" style="top:130px"></div>
 <div class="foot"><span>@WASLK_SA</span>${dots(n, N)}<span>${String(n).padStart(2, '0')}/${String(N).padStart(2, '0')}</span></div>`;
 function page(w, h, inner, cls = '', extraCss = '') { return `<!doctype html><html><head><meta charset="utf-8"><style>${BASE}${extraCss}</style></head><body><div class="page ${cls}" style="width:${w}px;height:${h}px">${inner}</div></body></html>`; }
 
@@ -87,13 +87,6 @@ function story(d) {
   <div style="position:absolute;left:90px;right:90px;bottom:250px;border:2px solid var(--w);padding:28px;text-align:center;font-family:Lalezar;font-size:44px">${esc(d.button || 'شوف المنشور الجديد ↓')}</div>
   <div style="position:absolute;left:0;right:0;bottom:150px;text-align:center;direction:ltr;font-family:Alex;font-weight:300;font-size:24px;letter-spacing:.3em;color:var(--g2)">@WASLK_SA</div>`);
 }
-function logo() {
-  return page(1080, 1080, `<svg width="1080" height="1080" viewBox="0 0 1080 1080" style="position:absolute;inset:0">
-   <g fill="none" stroke="#F4F4F1" stroke-width="58" stroke-linecap="round">
-     <path d="M 430 330 A 210 210 0 1 0 430 750"/>
-     <path d="M 650 750 A 210 210 0 1 0 650 330"/>
-     <line x1="430" y1="540" x2="650" y2="540"/>
-   </g>
-   <circle cx="540" cy="540" r="34" fill="#050505" stroke="#F4F4F1" stroke-width="18"/></svg>`);
-}
-module.exports = { cover, item, cta, story, logo, page, obj, esc, BASE };
+const MARK = (sz, col = '#F4F4F1') => `<svg width="${sz}" height="${sz}" viewBox="0 0 1080 1080" style="display:block"><circle cx="425" cy="540" r="185" fill="${col}"/><circle cx="655" cy="540" r="162" fill="none" stroke="${col}" stroke-width="46"/></svg>`;
+function logo() { return page(1080, 1080, `<div style="position:absolute;inset:0">${MARK(1080)}</div>`); }
+module.exports = { cover, item, cta, story, logo, page, obj, esc, BASE, MARK };

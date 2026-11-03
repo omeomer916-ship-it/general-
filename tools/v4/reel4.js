@@ -22,7 +22,7 @@ function sceneHtml(sc, i, start) {
       <div class="light fade" style="font-size:46px;line-height:1.55;color:var(--g1);margin-top:26px;animation-delay:${(start + 0.8).toFixed(3)}s">${e(sc.sub || '')}</div>
     </div>`;
   } else {
-    inner = `<svg class="draw" width="360" height="360" viewBox="0 0 1080 1080" style="position:absolute;left:360px;top:430px;animation-delay:${s}s"><g fill="none" stroke="#F4F4F1" stroke-width="58" stroke-linecap="round"><path pathLength="1" d="M 430 330 A 210 210 0 1 0 430 750"/><path pathLength="1" d="M 650 750 A 210 210 0 1 0 650 330"/><line pathLength="1" x1="430" y1="540" x2="650" y2="540"/></g></svg>
+    inner = `<div class="pop" style="position:absolute;left:390px;top:470px;animation-delay:${s}s">${T.MARK(300)}</div>
     <div style="position:absolute;right:80px;left:80px;top:860px;text-align:center">
       <div class="disp pop" style="font-size:150px;animation-delay:${(start + 0.3).toFixed(3)}s">${e(sc.line1)}</div>
       <div class="ruq pop" style="font-size:130px;color:var(--w);line-height:1.15;animation-delay:${(start + 0.55).toFixed(3)}s">${e(sc.accent)}</div>
