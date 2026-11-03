@@ -69,12 +69,16 @@ function sfx(dir) {
   if (!fs.existsSync(f('riser.wav'))) run(['-f', 'lavfi', '-i', "aevalsrc='0.35*sin(2*PI*(150*t+250*t*t))*(t/1.4)+0.25*(random(0)*2-1)*(t/1.4)*(t/1.4)':d=1.4", '-af', 'highpass=f=200', f('riser.wav')]);
 }
 function bed(dir, total, file) {
-  // dark minimal beat: kick on every beat at 104bpm, offbeat hat, sub drone
-  const bt = (60 / 104).toFixed(4);
-  const expr = `0.9*sin(2*PI*(48+110*exp(-mod(t,${bt})*28))*mod(t,${bt}))*exp(-mod(t,${bt})*7)` +
-    `+0.10*(random(0)*2-1)*exp(-mod(t+${(bt / 2).toFixed(4)},${bt})*55)` +
-    `+0.10*sin(2*PI*55*t)*(0.6+0.4*sin(2*PI*0.25*t))+0.06*sin(2*PI*82.4*t)`;
-  execFileSync('ffmpeg', ['-v', 'error', '-y', '-f', 'lavfi', '-i', `aevalsrc='${expr}':d=${total.toFixed(2)}:s=44100`, '-af', `highpass=f=30,lowpass=f=6000,volume=0.55,afade=t=in:d=0.2,afade=t=out:st=${(total - 0.8).toFixed(2)}:d=0.8`, file]);
+  // original "slowed + reverb" style bed: Am-F-C-G pads (2s each), soft sub, slow kick, long reverb
+  const T = total.toFixed(2), ch = 2.0;
+  const chord = (f1, f2, f3, k) => `(between(mod(t,${ch * 4}),${k * ch},${(k + 1) * ch})*(sin(2*PI*${f1}*t)+0.8*sin(2*PI*${f2}*t)+0.7*sin(2*PI*${f3}*t)+0.25*sin(2*PI*${f1 * 2}*t)))`;
+  const pad = [chord(220, 261.63, 329.63, 0), chord(174.61, 220, 261.63, 1), chord(130.81, 164.81, 196, 2), chord(196, 246.94, 293.66, 3)].join('+');
+  const sub = `0.35*sin(2*PI*(55*between(mod(t,8),0,2)+43.65*between(mod(t,8),2,4)+65.41*between(mod(t,8),4,6)+49*between(mod(t,8),6,8))*t)`;
+  const bt = 0.857; // 70bpm slowed
+  const kick = `0.55*sin(2*PI*(45+70*exp(-mod(t,${bt})*22))*mod(t,${bt}))*exp(-mod(t,${bt})*6)`;
+  const expr = `0.10*(${pad})*(0.75+0.25*sin(2*PI*0.125*t))+${sub}+${kick}`;
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-f', 'lavfi', '-i', `aevalsrc='${expr}':d=${T}:s=44100`, '-af',
+    `lowpass=f=2400,aecho=0.8:0.85:120|260|420:0.45|0.32|0.22,aecho=0.7:0.7:900:0.25,volume=1.5,afade=t=in:d=0.6,afade=t=out:st=${(total - 1.2).toFixed(2)}:d=1.2`, file]);
 }
 async function renderReel(ctx, reel, outDir, prefix, DIR, ENG) {
   const scenes = reel.scenes.map(s => Object.assign({ dur: DUR[s.type] || 3 }, s)); const total = scenes.reduce((a, s) => a + s.dur, 0);
